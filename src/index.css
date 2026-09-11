@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@import './theme/tokens.css';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is([data-theme='dark'] *));
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.scale-list-scroll {
+  scroll-padding-bottom: 304px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
