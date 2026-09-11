@@ -1,9 +1,9 @@
 import type { DisplayMode } from '../domain/scaleEngine'
-import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group'
+import { SegmentedControl } from './SegmentedControl'
 
-const OPTIONS: { value: DisplayMode; label: string }[] = [
-  { value: 'numbers', label: 'Numbers' },
-  { value: 'notes', label: 'Notes' },
+const OPTIONS = [
+  { value: 'numbers' as DisplayMode, label: 'Numbers' },
+  { value: 'notes' as DisplayMode, label: 'Notes' },
 ]
 
 export interface ModeToggleProps {
@@ -13,26 +13,11 @@ export interface ModeToggleProps {
 
 export function ModeToggle({ mode, onChange }: ModeToggleProps) {
   return (
-    <ToggleGroup
-      type="single"
-      spacing={0}
+    <SegmentedControl
+      options={OPTIONS}
       value={mode}
-      onValueChange={(value) => {
-        if (value) {
-          onChange(value as DisplayMode)
-        }
-      }}
-      className="border border-border p-1"
-    >
-      {OPTIONS.map((option) => (
-        <ToggleGroupItem
-          key={option.value}
-          value={option.value}
-          className="h-9 px-3 text-base"
-        >
-          {option.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      onChange={onChange}
+      ariaLabel="Label notes as numbers or note names"
+    />
   )
 }

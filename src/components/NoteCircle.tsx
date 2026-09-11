@@ -30,20 +30,33 @@ export function NoteCircle({
   onClick,
 }: NoteCircleProps) {
   const interactive = onClick !== undefined
-  const baseFill = accent === 'natural' ? 'var(--natural-fill)' : 'var(--accidental-fill)'
-  const baseStroke = accent === 'natural' ? 'var(--natural)' : 'var(--accidental)'
+  const isNatural = accent === 'natural'
 
-  const fill = wrong ? 'var(--destructive)' : secondaryHighlighted ? 'var(--primary)' : baseFill
+  const fill = wrong
+    ? 'var(--destructive-fill)'
+    : secondaryHighlighted
+      ? 'var(--accent-2-200)'
+      : isNatural
+        ? 'var(--natural-fill)'
+        : 'var(--accidental-fill)'
+
   const stroke = wrong
     ? 'var(--destructive)'
-    : secondaryHighlighted || highlighted
-      ? 'var(--primary)'
-      : baseStroke
+    : secondaryHighlighted
+      ? 'var(--accent-2-600)'
+      : highlighted
+        ? 'var(--highlight-border)'
+        : isNatural
+          ? 'var(--natural)'
+          : 'var(--accidental)'
+
   const textFill = wrong
     ? 'var(--destructive-foreground)'
     : secondaryHighlighted
-      ? 'var(--primary-foreground)'
-      : 'var(--text)'
+      ? 'var(--accent-2-800)'
+      : isNatural
+        ? 'var(--natural-text)'
+        : 'var(--accidental-text)'
 
   return (
     <g
@@ -61,16 +74,16 @@ export function NoteCircle({
           : undefined
       }
       className={interactive ? 'cursor-pointer' : undefined}
-      opacity={muted ? 0.1 : 1}
+      opacity={muted ? 0.28 : 1}
     >
-      <circle cx={cx} cy={cy} r={r} fill={fill} stroke={stroke} strokeWidth={2.25} />
+      <circle cx={cx} cy={cy} r={r} fill={fill} stroke={stroke} strokeWidth={2} />
       <text
         x={cx}
         y={cy}
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize={r * 0.95}
-        fontWeight={650}
+        fontSize={r * 0.85}
+        fontWeight={700}
         fill={textFill}
       >
         {getSingleNoteLabel(label, preferFlats)}

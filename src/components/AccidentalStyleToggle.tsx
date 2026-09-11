@@ -1,8 +1,10 @@
-import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group'
+import { SegmentedControl } from './SegmentedControl'
 
-const OPTIONS: { value: 'sharps' | 'flats'; label: string }[] = [
-  { value: 'sharps', label: 'Sharps' },
-  { value: 'flats', label: 'Flats' },
+type AccidentalStyle = 'sharps' | 'flats'
+
+const OPTIONS = [
+  { value: 'sharps' as AccidentalStyle, label: 'Sharps' },
+  { value: 'flats' as AccidentalStyle, label: 'Flats' },
 ]
 
 export interface AccidentalStyleToggleProps {
@@ -12,22 +14,11 @@ export interface AccidentalStyleToggleProps {
 
 export function AccidentalStyleToggle({ preferFlats, onChange }: AccidentalStyleToggleProps) {
   return (
-    <ToggleGroup
-      type="single"
-      spacing={0}
+    <SegmentedControl
+      options={OPTIONS}
       value={preferFlats ? 'flats' : 'sharps'}
-      onValueChange={(value) => {
-        if (value) {
-          onChange(value === 'flats')
-        }
-      }}
-      className="border border-border p-1"
-    >
-      {OPTIONS.map((option) => (
-        <ToggleGroupItem key={option.value} value={option.value} className="h-9 px-3 text-base">
-          {option.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      onChange={(value) => onChange(value === 'flats')}
+      ariaLabel="Spell accidentals as sharps or flats"
+    />
   )
 }
