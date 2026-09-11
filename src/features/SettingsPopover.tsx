@@ -3,7 +3,6 @@ import { ChordHighlightSelector } from '../components/ChordHighlightSelector'
 import { RootNoteSelector } from '../components/RootNoteSelector'
 import { Button } from '../components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popover'
-import { Separator } from '../components/ui/separator'
 import { useSettings } from '../state/settings'
 import { ThemeSelector } from './ThemeSelector'
 
@@ -21,10 +20,10 @@ export function SettingsPopover() {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon-sm" aria-label="Settings">
-          <Settings />
+          <Settings strokeWidth={2.75} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="flex w-72 flex-col gap-4">
+      <PopoverContent align="end" className="flex w-80 flex-col gap-5 rounded-[24px] p-5">
         {mode === 'notes' && (
           <RootNoteSelector rootSemitone={rootSemitone} onSelect={setRootSemitone} />
         )}
@@ -32,15 +31,15 @@ export function SettingsPopover() {
           chordId={highlightedChordId}
           onSelect={setHighlightedChordId}
         />
-        <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+        <div className="flex flex-col gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-text/55">
             Theme
           </span>
           <ThemeSelector />
         </div>
-        <Separator />
+        <div className="h-px bg-divider" />
         <Button variant="outline" size="sm" onClick={resetSettings} className="self-start">
-          <RotateCcw />
+          <RotateCcw strokeWidth={2.75} />
           Reset to defaults
         </Button>
       </PopoverContent>

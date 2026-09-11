@@ -1,26 +1,16 @@
-import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group'
+import { SegmentedControl } from '../components/SegmentedControl'
 import { useTheme } from '../state/theme'
 import { THEMES, type ThemeId } from '../theme/themes'
 
 export function ThemeSelector() {
   const { theme, setTheme } = useTheme()
   return (
-    <ToggleGroup
-      type="single"
-      spacing={0}
+    <SegmentedControl
+      options={THEMES.map((option) => ({ value: option.value, label: option.label }))}
       value={theme}
-      onValueChange={(value) => {
-        if (value) {
-          setTheme(value as ThemeId)
-        }
-      }}
-      className="border border-border p-1"
-    >
-      {THEMES.map((option) => (
-        <ToggleGroupItem key={option.value} value={option.value}>
-          {option.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      onChange={(value) => setTheme(value as ThemeId)}
+      ariaLabel="Theme"
+      size="sm"
+    />
   )
 }
