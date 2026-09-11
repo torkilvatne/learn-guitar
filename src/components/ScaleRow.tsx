@@ -32,9 +32,10 @@ export function ScaleRow({
   const chord = highlightedChordId ? getChordById(highlightedChordId) : undefined
   const chordFits = chord ? chordFitsSemitones(chord, scale.degrees) : false
   const chordSemitones = chordFits ? new Set(chord!.semitones) : null
+
   return (
     <div
-      className="grid"
+      className="grid gap-1.5"
       style={{ gridTemplateColumns: `repeat(${totalColumns}, minmax(0, 1fr))` }}
     >
       {grid.map((cell) => {
@@ -43,6 +44,15 @@ export function ScaleRow({
             ? getNumberLabelForSemitone(cell.semitone)
             : getNoteLabelForSemitone(cell.semitone, rootSemitone + offset)
         const numberLabel = getNumberLabelForSemitone(cell.semitone)
+
+        const captionLabel = mode === 'numbers' ? null : numberLabel
+        const caption =
+          showDegreeLabels && captionLabel !== null
+            ? isDualLabel(captionLabel)
+              ? `${captionLabel.sharp}/${captionLabel.flat}`
+              : String(captionLabel)
+            : undefined
+
         return (
           <div
             key={cell.semitone}
@@ -56,23 +66,8 @@ export function ScaleRow({
                 cell.present && (chordSemitones?.has(cell.semitone % 12) ?? false)
               }
               variant="outline"
+              caption={caption}
             />
-            {showDegreeLabels && (
-              <div
-                className={`mt-1 text-center text-[0.65rem] font-medium leading-none text-text ${
-                  mode === 'notes' ? (cell.present ? '' : 'opacity-10') : 'invisible'
-                }`}
-              >
-                {isDualLabel(numberLabel) ? (
-                  <>
-                    <span className="block">{numberLabel.sharp}</span>
-                    <span className="block">{numberLabel.flat}</span>
-                  </>
-                ) : (
-                  <span>{numberLabel}</span>
-                )}
-              </div>
-            )}
           </div>
         )
       })}

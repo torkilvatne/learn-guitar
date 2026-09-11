@@ -5,29 +5,37 @@ export interface ScaleNameProps {
   scale: Scale
   layout?: 'inline' | 'sidebar'
   showDiatonicBadge?: boolean
+  emphasis?: boolean
 }
 
 export function ScaleName({
   scale,
   layout = 'inline',
   showDiatonicBadge = true,
+  emphasis = false,
 }: ScaleNameProps) {
   const isDiatonicMode = showDiatonicBadge && getDiatonicModeInfo(scale) !== undefined
 
   return (
     <div
-      className={`flex items-center gap-2 ${
+      className={`flex items-center gap-2.5 ${
         layout === 'sidebar'
-          ? 'md:w-48 md:flex-none md:flex-col md:items-start md:justify-center md:gap-1'
+          ? 'md:w-[210px] md:flex-none md:flex-col md:items-start md:justify-center md:gap-0.5'
           : ''
       }`}
     >
-      <span className="text-2xl font-medium text-text">{scale.name}</span>
+      <span
+        className={`font-heading leading-tight text-text ${
+          emphasis ? 'text-[28px]' : 'text-[22px]'
+        }`}
+      >
+        {scale.name}
+      </span>
       {scale.altNames && scale.altNames.length > 0 && (
-        <span className="text-sm text-text-muted">({scale.altNames.join(', ')})</span>
+        <span className="text-xs text-text/60">{scale.altNames.join(', ')}</span>
       )}
       {isDiatonicMode && (
-        <span className="rounded-full bg-surface-alt px-2 py-0.5 text-xs font-medium text-text-muted">
+        <span className="rounded-full bg-accent-2-100 px-3 py-1 text-xs font-medium text-accent-2-800">
           Major diatonic mode
         </span>
       )}

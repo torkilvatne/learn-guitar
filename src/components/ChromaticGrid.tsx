@@ -20,7 +20,7 @@ export function ChromaticGrid({
 }: ChromaticGridProps) {
   const selected = new Set(selectedSemitones)
   return (
-    <div className="grid w-full grid-cols-[repeat(13,minmax(0,1fr))] gap-1">
+    <div className="grid w-full grid-cols-[repeat(13,minmax(0,1fr))] gap-1.5">
       {CHROMATIC_STEPS.map((step) => (
         <Box
           key={step.semitone}

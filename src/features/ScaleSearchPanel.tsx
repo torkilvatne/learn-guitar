@@ -1,20 +1,23 @@
 import { Search, X } from 'lucide-react'
-import { useState } from 'react'
 import { ChromaticGrid } from '../components/ChromaticGrid'
-import { PracticeMenu } from '../components/PracticeMenu'
 import { Button } from '../components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popover'
 import { useSettings } from '../state/settings'
 
 export interface ScaleSearchPanelProps {
   selected: number[]
   onSelectedChange: (semitones: number[]) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const PRACTICE_ITEMS = [{ label: 'Guess which scale', to: '/practice/guess-scale' }]
-
-export function ScaleSearchPanel({ selected, onSelectedChange }: ScaleSearchPanelProps) {
+export function ScaleSearchPanel({
+  selected,
+  onSelectedChange,
+  open,
+  onOpenChange,
+}: ScaleSearchPanelProps) {
   const { mode, rootSemitone } = useSettings()
-  const [isOpen, setIsOpen] = useState(false)
 
   function toggleSemitone(semitone: number) {
     onSelectedChange(
@@ -25,33 +28,32 @@ export function ScaleSearchPanel({ selected, onSelectedChange }: ScaleSearchPane
   }
 
   return (
-    <div className="flex flex-col items-center gap-3 p-4">
-      <div className="flex w-full max-w-2xl items-center justify-end gap-2">
-        {selected.length > 0 && (
-          <Button variant="outline" size="sm" onClick={() => onSelectedChange([])}>
-            Clear
-          </Button>
-        )}
-        <Button
-          variant="outline"
-          size="icon-sm"
-          aria-label={isOpen ? 'Close search' : 'Search'}
-          onClick={() => setIsOpen((value) => !value)}
-        >
-          {isOpen ? <X /> : <Search />}
+    <Popover open={open} onOpenChange={onOpenChange}>
+      <PopoverTrigger asChild>
+        <Button variant="outline">
+          <Search strokeWidth={2.75} />
+          {selected.length > 0
+            ? `${selected.length} note${selected.length === 1 ? '' : 's'}`
+            : 'Filter by notes'}
         </Button>
-        <PracticeMenu items={PRACTICE_ITEMS} />
-      </div>
-      {isOpen && (
-        <div className="w-full max-w-2xl">
-          <ChromaticGrid
-            mode={mode}
-            rootSemitone={rootSemitone}
-            selectedSemitones={selected}
-            onToggle={toggleSemitone}
-          />
+      </PopoverTrigger>
+      <PopoverContent align="end" className="w-[min(92vw,640px)] rounded-[24px] p-5">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <span className="text-sm font-semibold">Show scales containing…</span>
+          {selected.length > 0 && (
+            <Button variant="ghost" size="sm" onClick={() => onSelectedChange([])}>
+              <X strokeWidth={2.75} />
+              Clear
+            </Button>
+          )}
         </div>
-      )}
-    </div>
+        <ChromaticGrid
+          mode={mode}
+          rootSemitone={rootSemitone}
+          selectedSemitones={selected}
+          onToggle={toggleSemitone}
+        />
+      </PopoverContent>
+    </Popover>
   )
 }
