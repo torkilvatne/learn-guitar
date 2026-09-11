@@ -22,7 +22,7 @@ export function MultipleChoiceOptions<T>({
   const correctKey = getKey(correctOption)
 
   return (
-    <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
       {options.map((option) => {
         const key = getKey(option)
         const isCorrect = key === correctKey
@@ -40,7 +40,8 @@ export function MultipleChoiceOptions<T>({
             key={key}
             type="button"
             variant={variant}
-            className="justify-center py-6 text-lg"
+            size="lg"
+            className={`justify-center py-4.5 text-[17px] ${isWrong ? 'line-through' : ''}`}
             disabled={solved || isWrong}
             onClick={() => onSelect(option)}
           >

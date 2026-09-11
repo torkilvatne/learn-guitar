@@ -1,4 +1,4 @@
-import { CheckIcon, XIcon } from 'lucide-react'
+import { CircleCheck, CircleX } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import { Button } from '../../components/ui/button'
@@ -8,10 +8,16 @@ export type FeedbackStatus = 'correct' | 'incorrect'
 export interface FeedbackBannerProps {
   status?: FeedbackStatus
   correctAnswer?: ReactNode
+  explanation?: ReactNode
   onNext: () => void
 }
 
-export function FeedbackBanner({ status = 'correct', correctAnswer, onNext }: FeedbackBannerProps) {
+export function FeedbackBanner({
+  status = 'correct',
+  correctAnswer,
+  explanation,
+  onNext,
+}: FeedbackBannerProps) {
   const isCorrect = status === 'correct'
 
   useEffect(() => {
@@ -26,22 +32,27 @@ export function FeedbackBanner({ status = 'correct', correctAnswer, onNext }: Fe
   }, [onNext])
 
   return (
-    <div className="flex w-full flex-col gap-3">
-      <div
-        className={`flex w-full flex-col gap-3 border p-4 ${
-          isCorrect
-            ? 'border-success/40 bg-success/10 text-success'
-            : 'border-destructive/40 bg-destructive/10 text-destructive'
-        }`}
-      >
-        <div className="flex items-center gap-2 font-medium">
-          {isCorrect ? <CheckIcon className="size-5" /> : <XIcon className="size-5" />}
-          {isCorrect ? 'Correct!' : 'Not quite.'}
-        </div>
-        {!isCorrect && correctAnswer && <div className="text-sm text-text">{correctAnswer}</div>}
-      </div>
-      <Button type="button" size="lg" className="w-full py-3 text-base" onClick={onNext}>
+    <div
+      className={`flex w-full flex-wrap items-center gap-3.5 rounded-[24px] px-5 py-4 ${
+        isCorrect
+          ? 'bg-accent-2-100 text-accent-2-800'
+          : 'bg-destructive-fill text-destructive-foreground'
+      }`}
+    >
+      {isCorrect ? (
+        <CircleCheck className="size-5 shrink-0" strokeWidth={2.75} />
+      ) : (
+        <CircleX className="size-5 shrink-0" strokeWidth={2.75} />
+      )}
+      <span className="text-[15px] font-semibold">
+        {explanation ?? (isCorrect ? 'Correct.' : correctAnswer ?? 'Not quite.')}
+      </span>
+      {!isCorrect && explanation && correctAnswer && (
+        <span className="text-sm opacity-80">{correctAnswer}</span>
+      )}
+      <Button className="ml-auto" onClick={onNext}>
         Next
+        <span className="text-[11px] font-normal opacity-75">↵</span>
       </Button>
     </div>
   )
