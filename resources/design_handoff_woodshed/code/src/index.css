@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@import './theme/tokens.css';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Woodshed type. Self-host with fontsource if you'd rather not hit Google. */
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;500;600;700&display=swap');
+
+@custom-variant dark (&:is([data-theme='dark'] *));
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.375rem; }
+
+::selection {
+  background: var(--color-accent-200);
+  color: var(--color-accent-900);
+}
+
+.scale-list-scroll {
+  scroll-padding-bottom: 304px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  /* Themed focus, never the default blue ring. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}

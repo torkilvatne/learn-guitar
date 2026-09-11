@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-212f9ed8-429b-41bf-a414-c9e36bccdf72/styles.css">
+<script src="_ds/organic-212f9ed8-429b-41bf-a414-c9e36bccdf72/_ds_bundle.js"></script>
+<style>
+body { margin:0; background:#ded2bb; }
+a { color: var(--color-accent); }
+a:hover { color: var(--color-accent-700); }
+.board { width:1280px; border-radius:28px; overflow:hidden; background:var(--color-bg); color:var(--color-text); box-shadow:0 12px 32px rgba(46,43,37,.18); }
+.cap { font-family:"Figtree",system-ui,sans-serif; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#6c6152; }
+.shellnav a { text-decoration:none; color:inherit; font-size:14px; opacity:.72; }
+.shellnav a:hover { color:var(--color-accent); opacity:1; }
+.shellnav a[aria-current="page"] { color:var(--color-accent); opacity:1; }
+</style>
+</helmet>
+
+<div style="padding:56px; display:flex; flex-direction:column; gap:64px; align-items:flex-start; font-family:'Figtree',system-ui,sans-serif">
+
+  <div style="max-width:900px;display:flex;flex-direction:column;gap:8px">
+    <div class="cap">Woodshed — redesign</div>
+    <h1 style="font-family:'Caprasimo',serif;font-size:44px;margin:0;color:#201e1d">A calm practice room for guitar theory</h1>
+    <p style="font-size:17px;line-height:1.6;color:#4b443a;margin:0;max-width:70ch">One name, one warm palette in a light and dark pair, one radius scale, and a task-first home that decides where you go. The square grid stays the paper language; the neck keeps its circles — now the two say why.</p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">01 · Foundations</div>
+    <div class="board" style="padding:32px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h4 style="margin:0">Ground &amp; ink</h4>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ palette }}" as="p" hint-placeholder-count="6">
+              <div style="display:flex;flex-direction:column;gap:6px;width:104px">
+                <div style="height:56px;border-radius:16px;background:{{ p.hex }};border:1px solid var(--color-divider)"></div>
+                <div style="font-size:11px;line-height:1.35"><strong>{{ p.name }}</strong><br><span style="opacity:.6">{{ p.hex }}</span></div>
+              </div>
+            </sc-for>
+          </div>
+          <p style="font-size:13px;opacity:.75;margin:0;max-width:46ch">Cream ground, ink at 4.9:1 rather than pure black on white. Terracotta is the only emphasis; sage is the second voice for chord tones and “right”.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h4 style="margin:0">Two note languages, stated</h4>
+          <div style="display:flex;gap:24px;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:grid;grid-template-columns:repeat(5,44px);gap:4px">
+                <sc-for list="{{ legendCells }}" as="c" hint-placeholder-count="5">
+                  <div style="height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;background:{{ c.bg }};color:{{ c.fg }};border:1.5px solid {{ c.border }}">{{ c.a }}</div>
+                </sc-for>
+              </div>
+              <div style="font-size:12px"><strong>Square — on paper.</strong><br><span style="opacity:.7">Degrees and spelling. Both names shown.</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div>{{ legendSvg }}</div>
+              <div style="font-size:12px"><strong>Round — on the neck.</strong><br><span style="opacity:.7">One spelling, your choice. Warm = natural, sage = accidental.</span></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px">
+            <span class="tag tag-accent">in the scale</span>
+            <span class="tag tag-accent-2">chord tone</span>
+            <span class="tag" style="background:#f6ddd4;color:#7e2d1d">wrong — locked</span>
+            <span class="tag tag-neutral">not in the scale</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">02 · Home — the app decides nothing for you, it just asks what you came to do</div>
+    <div class="board">
+      <header class="nav shellnav" style="padding:14px 28px;border-bottom:1px solid var(--color-divider);gap:20px">
+        <div class="nav-brand" style="display:flex;align-items:center;gap:10px;margin-right:auto">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="var(--color-accent)"></circle>
+            <path d="M9 8.5V19.5" stroke="var(--color-bg)" stroke-width="2.75" stroke-linecap="round"></path>
+            <path d="M13 11h7M13 14h7M13 17h7" stroke="var(--color-bg)" stroke-width="1.75" stroke-linecap="round"></path>
+          </svg>
+          Woodshed
+        </div>
+        <a href="#02" aria-current="page">Home</a>
+        <a href="#03">Scales</a>
+        <a href="#05">Practice</a>
+        <a href="#07">Fretboard</a>
+        <button class="btn btn-icon btn-secondary" aria-label="Settings" style="margin-left:8px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </header>
+
+      <div style="padding:44px 56px 52px;display:flex;flex-direction:column;gap:32px">
+        <div style="max-width:640px">
+          <h1 style="margin:0 0 6px">What are you working on?</h1>
+          <p style="font-size:16px;opacity:.72;margin:0">Three ways in. Everything else is one click deeper.</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+          <sc-for list="{{ goals }}" as="g" hint-placeholder-count="3">
+            <div class="card elev-sm" style="padding:26px;gap:14px;min-height:280px">
+              <span class="card-kicker">{{ g.kicker }}</span>
+              <div style="font-family:'Caprasimo',serif;font-size:26px;line-height:1.15">{{ g.title }}</div>
+              <p class="card-body" style="font-size:14px;opacity:.78">{{ g.body }}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ g.chips }}" as="chip" hint-placeholder-count="2">
+                  <span class="tag tag-neutral" style="font-size:12px;padding:5px 12px">{{ chip.label }}</span>
+                </sc-for>
+              </div>
+              <a class="btn btn-primary" href="{{ g.href }}" style="align-self:flex-start;margin-top:4px">{{ g.cta }}</a>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:16px;padding:18px 24px;border-radius:28px;border:1px solid var(--color-divider)">
+          <span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.6">Where you left off</span>
+          <span style="font-family:'Caprasimo',serif;font-size:19px">Dorian</span>
+          <span class="tag tag-accent-2">Major diatonic mode</span>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <a class="btn btn-secondary" href="#04">Open the scale</a>
+            <a class="btn btn-primary" href="#06">Practice it</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">03 · Scales — the focus carousel kept, the contrast softened</div>
+    <div class="board">
+      <header class="nav shellnav" style="padding:14px 28px;border-bottom:1px solid var(--color-divider);gap:20px">
+        <div class="nav-brand" style="display:flex;align-items:center;gap:10px;margin-right:auto">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="var(--color-accent)"></circle>
+            <path d="M9 8.5V19.5" stroke="var(--color-bg)" stroke-width="2.75" stroke-linecap="round"></path>
+            <path d="M13 11h7M13 14h7M13 17h7" stroke="var(--color-bg)" stroke-width="1.75" stroke-linecap="round"></path>
+          </svg>
+          Woodshed
+        </div>
+        <a href="#02">Home</a>
+        <a href="#03" aria-current="page">Scales</a>
+        <a href="#05">Practice</a>
+        <a href="#07">Fretboard</a>
+      </header>
+
+      <div style="padding:32px 56px 0;display:flex;align-items:flex-end;gap:16px">
+        <div>
+          <h2 style="margin:0 0 2px">Scales</h2>
+          <p style="margin:0;font-size:14px;opacity:.7">39 scales · scroll to bring one into focus</p>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+          <div class="seg">
+            <label class="seg-opt"><input type="radio" name="dm3" checked>Numbers</label>
+            <label class="seg-opt"><input type="radio" name="dm3">Notes</label>
+          </div>
+          <button class="btn btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+            Filter by notes
+          </button>
+        </div>
+      </div>
+
+      <div style="padding:20px 56px 44px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0 6px">
+          <span class="tag tag-accent" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Major diatonic modes</span>
+          <span style="height:1px;flex:1;background:var(--color-divider)"></span>
+        </div>
+        <sc-for list="{{ libraryRows }}" as="row" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:24px;padding:16px 22px;border-radius:24px;background:{{ row.bg }};opacity:{{ row.opacity }};box-shadow:{{ row.shadow }}">
+            <div style="width:210px;flex:none">
+              <div style="font-family:'Caprasimo',serif;font-size:{{ row.size }}px;line-height:1.15">{{ row.name }}</div>
+              <div style="font-size:12px;opacity:.6">{{ row.alt }}</div>
+            </div>
+            <div style="flex:1;display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:5px">
+              <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="13">
+                <div style="aspect-ratio:1/1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:{{ c.bg }};color:{{ c.fg }};border:1.5px solid {{ c.border }};font-size:19px;font-weight:700;line-height:1">
+                  <sc-if value="{{ c.dual }}" hint-placeholder-val="{{ true }}">
+                    <span style="font-size:11px">{{ c.a }}</span>
+                    <span style="font-size:11px">{{ c.b }}</span>
+                  </sc-if>
+                  <sc-if value="{{ c.single }}" hint-placeholder-val="{{ true }}">
+                    <span>{{ c.a }}</span>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;opacity:{{ row.chevron }}"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">04 · Scale detail — one shell for every scale, one way to practice it</div>
+    <div class="board">
+      <header class="nav shellnav" style="padding:14px 28px;border-bottom:1px solid var(--color-divider);gap:20px">
+        <div class="nav-brand" style="display:flex;align-items:center;gap:10px;margin-right:auto">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="var(--color-accent)"></circle>
+            <path d="M9 8.5V19.5" stroke="var(--color-bg)" stroke-width="2.75" stroke-linecap="round"></path>
+            <path d="M13 11h7M13 14h7M13 17h7" stroke="var(--color-bg)" stroke-width="1.75" stroke-linecap="round"></path>
+          </svg>
+          Woodshed
+        </div>
+        <a href="#02">Home</a>
+        <a href="#03" aria-current="page">Scales</a>
+        <a href="#05">Practice</a>
+        <a href="#07">Fretboard</a>
+      </header>
+
+      <div style="padding:26px 56px 48px;display:flex;flex-direction:column;gap:22px">
+        <button class="btn btn-ghost" style="align-self:flex-start;padding-left:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+          All scales
+        </button>
+
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <h1 style="margin:0">Dorian</h1>
+              <span class="tag tag-accent-2">Major diatonic mode</span>
+            </div>
+            <p style="margin:4px 0 0;font-size:14px;opacity:.7">Second mode of the major scale · minor quality</p>
+          </div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+            <button class="btn btn-secondary">Change scale
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+            </button>
+            <button class="btn btn-primary">Practice this scale
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="seg">
+            <label class="seg-opt"><input type="radio" name="tab4" checked>Intervals</label>
+            <label class="seg-opt"><input type="radio" name="tab4">Modes</label>
+          </div>
+          <div class="seg">
+            <label class="seg-opt"><input type="radio" name="dm4" checked>Numbers</label>
+            <label class="seg-opt"><input type="radio" name="dm4">Notes</label>
+          </div>
+          <label class="radio" style="margin-left:auto;gap:10px">
+            <input type="checkbox" checked><span class="dot"></span>
+            Interval arrows
+          </label>
+        </div>
+
+        <div class="card elev-sm" style="padding:34px 36px;border-radius:32px;gap:0">
+          <div>{{ arcsInvertedSvg }}</div>
+          <div style="display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:6px;margin:8px 0">
+            <sc-for list="{{ detailCells }}" as="c" hint-placeholder-count="13">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+                <div style="width:100%;aspect-ratio:1/1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:{{ c.bg }};color:{{ c.fg }};border:1.5px solid {{ c.border }};font-size:28px;font-weight:700;line-height:1">
+                  <sc-if value="{{ c.dual }}" hint-placeholder-val="{{ true }}">
+                    <span style="font-size:15px">{{ c.a }}</span>
+                    <span style="font-size:15px">{{ c.b }}</span>
+                  </sc-if>
+                  <sc-if value="{{ c.single }}" hint-placeholder-val="{{ true }}">
+                    <span>{{ c.a }}</span>
+                  </sc-if>
+                </div>
+                <div style="font-size:11px;opacity:{{ c.ink }}">{{ c.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div>{{ arcsDirectSvg }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">05 · Practice — nine games in three families, one entry point each</div>
+    <div class="board">
+      <header class="nav shellnav" style="padding:14px 28px;border-bottom:1px solid var(--color-divider);gap:20px">
+        <div class="nav-brand" style="display:flex;align-items:center;gap:10px;margin-right:auto">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="var(--color-accent)"></circle>
+            <path d="M9 8.5V19.5" stroke="var(--color-bg)" stroke-width="2.75" stroke-linecap="round"></path>
+            <path d="M13 11h7M13 14h7M13 17h7" stroke="var(--color-bg)" stroke-width="1.75" stroke-linecap="round"></path>
+          </svg>
+          Woodshed
+        </div>
+        <a href="#02">Home</a>
+        <a href="#03">Scales</a>
+        <a href="#05" aria-current="page">Practice</a>
+        <a href="#07">Fretboard</a>
+      </header>
+      <div style="padding:36px 56px 48px;display:flex;flex-direction:column;gap:28px">
+        <div style="max-width:620px">
+          <h2 style="margin:0 0 4px">Practice</h2>
+          <p style="margin:0;font-size:15px;opacity:.72">Every drill opens the same way: choose what's in the pool, then start. Leave whenever — nothing is timed.</p>
+        </div>
+        <sc-for list="{{ practiceFamilies }}" as="fam" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-family:'Caprasimo',serif;font-size:20px">{{ fam.title }}</span>
+              <span style="font-size:13px;opacity:.6">{{ fam.blurb }}</span>
+              <span style="height:1px;flex:1;background:var(--color-divider)"></span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+              <sc-for list="{{ fam.games }}" as="game" hint-placeholder-count="3">
+                <div class="card" style="padding:20px;gap:8px;min-height:132px">
+                  <div class="card-title">{{ game.title }}</div>
+                  <p class="card-body" style="font-size:13px;opacity:.75">{{ game.body }}</p>
+                  <div class="card-meta">{{ game.meta }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">06 · A drill in play — the shell every game shares</div>
+    <div class="board" style="background:var(--color-neutral-200);padding:40px;display:flex;justify-content:center">
+      <div style="width:840px;border-radius:36px;background:var(--color-bg);box-shadow:0 12px 32px rgba(46,43,37,.14);padding:32px 36px 36px;display:flex;flex-direction:column;gap:26px">
+        <div style="display:flex;align-items:center;gap:16px">
+          <button class="btn btn-ghost" style="padding-left:0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Leave
+          </button>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
+            <div style="display:flex;gap:5px">
+              <sc-for list="{{ progressDots }}" as="d" hint-placeholder-count="10">
+                <span style="width:8px;height:8px;border-radius:999px;background:{{ d.color }}"></span>
+              </sc-for>
+            </div>
+            <span class="tag tag-neutral">8 of 10 clean</span>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:4px">Guess the interval</div>
+          <h3 style="margin:0">How far is the arrow?</h3>
+        </div>
+
+        <div>
+          <div style="display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ quizCells }}" as="c" hint-placeholder-count="13">
+              <div style="aspect-ratio:1/1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:{{ c.bg }};color:{{ c.fg }};border:1.5px solid {{ c.border }};font-size:24px;font-weight:700;line-height:1">
+                <sc-if value="{{ c.dual }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:13px">{{ c.a }}</span>
+                  <span style="font-size:13px">{{ c.b }}</span>
+                </sc-if>
+                <sc-if value="{{ c.single }}" hint-placeholder-val="{{ true }}">
+                  <span>{{ c.a }}</span>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div>{{ quizArcsSvg }}</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <button class="btn btn-secondary" style="padding:18px;font-size:17px">MIN 3</button>
+          <button class="btn" style="padding:18px;font-size:17px;background:#f6ddd4;color:#7e2d1d;text-decoration:line-through;opacity:.75" disabled>PER 4</button>
+          <button class="btn" style="padding:18px;font-size:17px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);border:1.5px solid var(--color-accent-2-600)">MAJ 6</button>
+          <button class="btn btn-secondary" style="padding:18px;font-size:17px">MIN 7</button>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;padding:16px 22px;border-radius:24px;background:var(--color-accent-2-100);color:var(--color-accent-2-800)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg>
+          <span style="font-size:15px;font-weight:600">Major 6th — nine semitones.</span>
+          <button class="btn btn-primary" style="margin-left:auto">Next
+            <span style="font-size:11px;opacity:.75;font-family:'Figtree',sans-serif">↵</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">07 · Fretboard — same toolbar grammar as everywhere else</div>
+    <div class="board">
+      <header class="nav shellnav" style="padding:14px 28px;border-bottom:1px solid var(--color-divider);gap:20px">
+        <div class="nav-brand" style="display:flex;align-items:center;gap:10px;margin-right:auto">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="var(--color-accent)"></circle>
+            <path d="M9 8.5V19.5" stroke="var(--color-bg)" stroke-width="2.75" stroke-linecap="round"></path>
+            <path d="M13 11h7M13 14h7M13 17h7" stroke="var(--color-bg)" stroke-width="1.75" stroke-linecap="round"></path>
+          </svg>
+          Woodshed
+        </div>
+        <a href="#02">Home</a>
+        <a href="#03">Scales</a>
+        <a href="#05">Practice</a>
+        <a href="#07" aria-current="page">Fretboard</a>
+      </header>
+      <div style="padding:36px 56px 48px;display:flex;flex-direction:column;gap:22px">
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <div>
+            <h2 style="margin:0 0 2px">Fretboard</h2>
+            <p style="margin:0;font-size:14px;opacity:.7">Six strings, twelve frets. Notes sit where the finger presses.</p>
+          </div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+            <div class="seg">
+              <label class="seg-opt"><input type="radio" name="acc" checked>Sharps</label>
+              <label class="seg-opt"><input type="radio" name="acc">Flats</label>
+            </div>
+            <button class="btn btn-secondary">Standard (E A D G B E)
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+            </button>
+            <button class="btn btn-secondary">All notes</button>
+          </div>
+        </div>
+        <div class="card elev-sm" style="padding:24px 20px;border-radius:32px">
+          <div>{{ fretboardSvg }}</div>
+        </div>
+        <p style="margin:0;font-size:13px;opacity:.65;max-width:70ch">Round notes mean the physical neck — one spelling at a time, warm for naturals and sage for accidentals. The square grid elsewhere is the same music on paper.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="cap">08 · Mobile &amp; the dark half of the pair</div>
+    <div style="display:flex;gap:32px;align-items:flex-start">
+      <div style="width:390px;border-radius:36px;overflow:hidden;background:var(--color-bg);color:var(--color-text);box-shadow:0 12px 32px rgba(46,43,37,.18)">
+        <div style="padding:18px 20px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--color-divider)">
+          <svg width="24" height="24" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="var(--color-accent)"></circle>
+            <path d="M9 8.5V19.5" stroke="var(--color-bg)" stroke-width="2.75" stroke-linecap="round"></path>
+            <path d="M13 11h7M13 14h7M13 17h7" stroke="var(--color-bg)" stroke-width="1.75" stroke-linecap="round"></path>
+          </svg>
+          <span style="font-family:'Caprasimo',serif;font-size:17px">Woodshed</span>
+          <button class="btn btn-icon btn-secondary" aria-label="Settings" style="margin-left:auto;width:44px;height:44px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div style="padding:24px 20px 28px;display:flex;flex-direction:column;gap:16px">
+          <h2 style="margin:0;font-size:28px">What are you working on?</h2>
+          <sc-for list="{{ goals }}" as="g" hint-placeholder-count="3">
+            <div class="card" style="padding:18px;gap:8px">
+              <span class="card-kicker">{{ g.kicker }}</span>
+              <div style="font-family:'Caprasimo',serif;font-size:21px;line-height:1.15">{{ g.title }}</div>
+              <p class="card-body" style="font-size:13px">{{ g.body }}</p>
+              <a class="btn btn-primary" href="{{ g.href }}" style="align-self:stretch;min-height:46px">{{ g.cta }}</a>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;border-top:1px solid var(--color-divider);padding:8px 12px 20px">
+          <div style="flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--color-accent)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</div><div style="flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:rgba(32,30,29,.6)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 5H3"/><path d="M11 12H3"/><path d="M11 19H3"/><path d="M21 16V5"/><circle cx="18" cy="16" r="3"/></svg>Scales</div><div style="flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:rgba(32,30,29,.6)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Practice</div><div style="flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:rgba(32,30,29,.6)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m11.9 12.1 4.514-4.514"/><path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z"/><path d="m6 16 2 2"/><path d="M8.23 9.85A3 3 0 0 1 11 8a5 5 0 0 1 5 5 3 3 0 0 1-1.85 2.77l-.92.38A2 2 0 0 0 12 18a4 4 0 0 1-4 4 6 6 0 0 1-6-6 4 4 0 0 1 4-4 2 2 0 0 0 1.85-1.23z"/></svg>Neck</div>
+        </div>
+      </div>
+
+      <div style="width:390px;border-radius:36px;overflow:hidden;box-shadow:0 12px 32px rgba(46,43,37,.3);--color-bg:#211d18;--color-surface:#2c2721;--color-text:#f3e9db;--color-divider:rgba(243,233,219,.16);--color-accent:#e08a4d;--color-accent-100:#3a2417;--color-accent-800:#ffd6b8;--color-accent-2-100:#2a3122;--color-accent-2-200:#39432e;--color-accent-2-600:#a9bb8c;--color-accent-2-800:#dceac4;--color-neutral-100:#2c2721;--color-neutral-800:#e6dccd;background:#211d18;color:#f3e9db">
+        <div style="padding:18px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--color-divider)">
+          <button class="btn btn-ghost" style="padding-left:0;color:var(--color-accent)">Leave</button>
+          <span class="tag" style="margin-left:auto;background:#2c2721;color:#d8cdbc">8 of 10 clean</span>
+        </div>
+        <div style="padding:24px 20px 28px;display:flex;flex-direction:column;gap:20px">
+          <div style="text-align:center">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.55">Guess the interval</div>
+            <h3 style="margin:4px 0 0;font-size:22px">How far is the arrow?</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px">
+            <sc-for list="{{ darkCells }}" as="c" hint-placeholder-count="7">
+              <div style="aspect-ratio:1/1;border-radius:9px;display:flex;align-items:center;justify-content:center;background:{{ c.bg }};color:{{ c.fg }};border:1.5px solid {{ c.border }};font-size:17px;font-weight:700">
+                <sc-if value="{{ c.dual }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:10px">{{ c.a }}</span>
+                </sc-if>
+                <sc-if value="{{ c.single }}" hint-placeholder-val="{{ true }}">
+                  <span>{{ c.a }}</span>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <button class="btn" style="padding:16px;font-size:15px;border:1px solid var(--color-divider);color:var(--color-text)">MIN 3</button>
+            <button class="btn" style="padding:16px;font-size:15px;background:#4a2a20;color:#f0b7a4" disabled>PER 4</button>
+            <button class="btn" style="padding:16px;font-size:15px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);border:1.5px solid var(--color-accent-2-600)">MAJ 6</button>
+            <button class="btn" style="padding:16px;font-size:15px;border:1px solid var(--color-divider);color:var(--color-text)">MIN 7</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:22px;background:var(--color-accent-2-100);color:var(--color-accent-2-800)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg>
+            <span style="font-size:14px;font-weight:600">Major 6th.</span>
+            <button class="btn btn-primary" style="margin-left:auto;min-height:44px;color:#211d18">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="width:420px;display:flex;flex-direction:column;gap:14px;padding-top:8px">
+        <h4 style="margin:0;color:#201e1d">What changed, and why</h4>
+        <sc-for list="{{ rationale }}" as="r" hint-placeholder-count="6">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="width:7px;height:7px;border-radius:999px;background:#c67139;margin-top:8px;flex:none"></span>
+            <div style="font-size:14px;line-height:1.5;color:#3d372f"><strong>{{ r.title }}</strong> — {{ r.body }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400}}">
+const CHROM = [['1'],['1#','2b'],['2'],['2#','3b'],['3'],['4'],['4#','5b'],['5'],['5#','6b'],['6'],['6#','7b'],['7'],['8']]
+const NOTE_NAMES = ['D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D']
+const NOTE_STEPS = ['A',['A#','Bb'],'B','C',['C#','Db'],'D',['D#','Eb'],'E','F',['F#','Gb'],'G',['G#','Ab']]
+const INTERVALS = ['PER UNISON','MIN 2','MAJ 2','MIN 3','MAJ 3','PER 4','AUG 4 / DIM 5','PER 5','AUG 5 / MIN 6','MAJ 6','MIN 7','MAJ 7','PER OCT']
+
+function cells(degrees, opts) {
+  const o = opts || {}
+  const dark = o.dark
+  return CHROM.map((lbl, i) => {
+    const present = degrees.indexOf(i) !== -1
+    return {
+      key: i,
+      dual: lbl.length === 2, single: lbl.length === 1,
+      a: lbl[0], b: lbl[1] || '',
+      note: NOTE_NAMES[i],
+      ink: present ? 0.75 : 0.25,
+      bg: present ? (dark ? '#e08a4d' : '#c67139') : (dark ? '#2c2721' : '#f0e4ce'),
+      fg: present ? (dark ? '#211d18' : '#f5ead8') : (dark ? 'rgba(243,233,219,.45)' : 'rgba(32,30,29,.42)'),
+      border: present ? (dark ? '#e08a4d' : '#b2622d') : (dark ? 'rgba(243,233,219,.14)' : 'rgba(32,30,29,.10)'),
+    }
+  })
+}
+
+function arcs(degrees, direction, width, cols) {
+  const COLS = cols || 13, RANK = 19, ARROW = 8, AW = 9, FS = 11, CW = 6.4, PAD = 7
+  const anchorSemitone = direction === 'direct' ? 0 : 12
+  const list = degrees.filter((s) => s !== anchorSemitone).map((s) => ({ semitone: s, span: Math.abs(s - anchorSemitone), label: INTERVALS[Math.abs(s - anchorSemitone)] }))
+  const height = list.length * RANK + ARROW + 8
+  const spans = list.map((a) => a.span).sort((a, b) => a - b)
+  const rankBySpan = new Map(spans.map((s, i) => [s, i + 1]))
+  const cx = (s) => ((s + 0.5) / COLS) * width
+  const vdir = direction === 'direct' ? 1 : -1
+  const nearY = direction === 'direct' ? 0 : height
+  const anchorX = cx(anchorSemitone)
+  return {
+    height: height,
+    items: list.map((arc) => {
+      const targetX = cx(arc.semitone)
+      const peakY = nearY + vdir * (rankBySpan.get(arc.span) || 1) * RANK
+      const endY = nearY + vdir * ARROW
+      const lw = arc.label.length * CW + PAD * 2
+      const lx = (anchorX + targetX) / 2
+      return {
+        key: arc.semitone,
+        d: 'M ' + anchorX + ' ' + nearY + ' L ' + anchorX + ' ' + peakY + ' L ' + targetX + ' ' + peakY + ' L ' + targetX + ' ' + endY,
+        arrow: targetX + ',' + nearY + ' ' + (targetX - AW / 2) + ',' + endY + ' ' + (targetX + AW / 2) + ',' + endY,
+        rx: lx - lw / 2, ry: peakY - 9, rw: lw, lx: lx, ly: peakY, label: arc.label,
+      }
+    }),
+  }
+}
+
+const h = (tag, props, children) => React.createElement(tag, props, children)
+const raw = (markup) => h('div', { dangerouslySetInnerHTML: { __html: markup } })
+
+function arcSvg(data, width) {
+  const body = data.items.map((a) =>
+    '<g>' +
+    '<path d="' + a.d + '" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.55"/>' +
+    '<polygon points="' + a.arrow + '" fill="currentColor" opacity="0.55"/>' +
+    '<rect x="' + a.rx + '" y="' + a.ry + '" width="' + a.rw + '" height="18" rx="9" fill="var(--color-accent-100)"/>' +
+    '<text x="' + a.lx + '" y="' + a.ly + '" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="700" fill="var(--color-accent-800)">' + a.label + '</text>' +
+    '</g>').join('')
+  return raw('<svg width="' + width + '" height="' + data.height + '" viewBox="0 0 ' + width + ' ' + data.height + '" style="display:block;color:var(--color-accent-700)">' + body + '</svg>')
+}
+
+function plainArcSvg(data, width) {
+  const body = data.items.map((a) =>
+    '<g><path d="' + a.d + '" stroke="currentColor" stroke-width="1.75" fill="none"/><polygon points="' + a.arrow + '" fill="currentColor"/></g>').join('')
+  return raw('<svg width="' + width + '" height="' + data.height + '" viewBox="0 0 ' + width + ' ' + data.height + '" style="display:block;color:var(--color-accent-700)">' + body + '</svg>')
+}
+
+class Component extends DCLogic {
+  renderVals() {
+    const dorian = [0, 2, 3, 5, 7, 9, 10, 12]
+    const direct = arcs(dorian, 'direct', 1096)
+    const inverted = arcs(dorian, 'inverted', 1096)
+    const quiz = arcs([0, 9], 'direct', 768)
+
+    const modes = [
+      { name: 'Ionian', alt: 'Major diatonic', degrees: [0, 2, 4, 5, 7, 9, 11, 12] },
+      { name: 'Dorian', alt: '', degrees: dorian },
+      { name: 'Phrygian', alt: '', degrees: [0, 1, 3, 5, 7, 8, 10, 12] },
+      { name: 'Lydian', alt: '', degrees: [0, 2, 4, 6, 7, 9, 11, 12] },
+      { name: 'Mixolydian', alt: '', degrees: [0, 2, 4, 5, 7, 9, 10, 12] },
+    ]
+    const libraryRows = modes.map((m, i) => {
+      const d = Math.abs(i - 2)
+      return {
+        key: m.name, name: m.name, alt: m.alt,
+        opacity: d === 0 ? 1 : d === 1 ? 0.62 : 0.34,
+        size: d === 0 ? 28 : 22,
+        bg: d === 0 ? 'var(--color-surface)' : 'transparent',
+        shadow: d === 0 ? 'var(--shadow-sm)' : 'none',
+        chevron: d === 0 ? 0.7 : 0,
+        cells: cells(m.degrees),
+      }
+    })
+
+    const PAD_TOP = 72, ROW_SPACING = 54, NUT_X = 130, GRID_RIGHT = 1280, SEG = (GRID_RIGHT - NUT_X) / 12
+    const fretCenterX = (f) => NUT_X + (f - 0.5) * SEG
+    const rowY = [0, 1, 2, 3, 4, 5].map((i) => PAD_TOP + i * ROW_SPACING)
+    const tuning = [7, 2, 10, 5, 0, 7]
+    const fretNotes = []
+    tuning.forEach((open, row) => {
+      for (let f = 0; f <= 12; f++) {
+        const step = NOTE_STEPS[(open + f) % 12]
+        const dual = typeof step !== 'string'
+        fretNotes.push({
+          key: row + '-' + f,
+          cx: f === 0 ? 70 : fretCenterX(f),
+          cy: rowY[row],
+          label: dual ? step[0] : step,
+          fill: dual ? '#e1eecc' : '#ffe1d0',
+          stroke: dual ? '#728157' : '#b2622d',
+          text: dual ? '#3d472b' : '#643312',
+        })
+      }
+    })
+
+    const legendNoteData = [
+      { cx: 22, label: 'E', fill: '#ffe1d0', stroke: '#b2622d' },
+      { cx: 68, label: 'F', fill: '#ffe1d0', stroke: '#b2622d' },
+      { cx: 114, label: 'F#', fill: '#e1eecc', stroke: '#728157' },
+      { cx: 160, label: 'G', fill: '#ffe1d0', stroke: '#b2622d' },
+      { cx: 206, label: 'G#', fill: '#e1eecc', stroke: '#728157' },
+    ]
+
+    const legendSvg = raw('<svg width="236" height="44" viewBox="0 0 236 44">' +
+      '<line x1="4" y1="22" x2="232" y2="22" stroke="var(--color-neutral-400)" stroke-width="1.5"/>' +
+      legendNoteData.map((n) =>
+        '<g><circle cx="' + n.cx + '" cy="22" r="19" fill="' + n.fill + '" stroke="' + n.stroke + '" stroke-width="2"/>' +
+        '<text x="' + n.cx + '" y="22" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="700" fill="var(--color-text)">' + n.label + '</text></g>').join('') +
+      '</svg>')
+
+    const fbMarkers = [3, 5, 7, 9, 12].map((fr) =>
+      '<rect x="' + (fretCenterX(fr) - 17) + '" y="22" width="34" height="24" rx="12" fill="var(--color-neutral-200)"/>' +
+      '<rect x="' + (fretCenterX(fr) - 17) + '" y="384" width="34" height="24" rx="12" fill="var(--color-neutral-200)"/>').join('')
+    const fbStrings = rowY.map((y) => '<line x1="70" y1="' + y + '" x2="1280" y2="' + y + '" stroke="var(--color-neutral-400)" stroke-width="1.5"/>').join('')
+    const fbWires = [1,2,3,4,5,6,7,8,9,10,11,12].map((fr) => '<line x1="' + (NUT_X + fr * SEG) + '" y1="72" x2="' + (NUT_X + fr * SEG) + '" y2="342" stroke="var(--color-neutral-300)" stroke-width="1.5"/>').join('')
+    const fbNumbers = [1,2,3,4,5,6,7,8,9,10,11,12].map((fr) =>
+      '<text x="' + fretCenterX(fr) + '" y="34" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="700" fill="var(--color-neutral-600)">' + fr + '</text>' +
+      '<text x="' + fretCenterX(fr) + '" y="396" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="700" fill="var(--color-neutral-600)">' + fr + '</text>').join('')
+    const fbNotes = fretNotes.map((n) =>
+      '<g><circle cx="' + n.cx + '" cy="' + n.cy + '" r="19" fill="' + n.fill + '" stroke="' + n.stroke + '" stroke-width="2"/>' +
+      '<text x="' + n.cx + '" y="' + n.cy + '" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="700" fill="' + n.text + '">' + n.label + '</text></g>').join('')
+    const fretboardSvg = raw('<svg viewBox="0 0 1320 414" style="display:block;width:100%">' + fbMarkers + fbStrings + fbWires +
+      '<line x1="130" y1="72" x2="130" y2="342" stroke="var(--color-neutral-800)" stroke-width="7" stroke-linecap="round"/>' + fbNumbers + fbNotes + '</svg>')
+
+    return {
+      legendSvg: legendSvg,
+      fretboardSvg: fretboardSvg,
+      arcsInvertedSvg: arcSvg(inverted, 1096),
+      arcsDirectSvg: arcSvg(direct, 1096),
+      quizArcsSvg: plainArcSvg(quiz, 768),
+      palette: [
+        { key: 1, name: 'Ground', hex: '#f5ead8' },
+        { key: 2, name: 'Surface', hex: '#ebddc5' },
+        { key: 3, name: 'Ink', hex: '#201e1d' },
+        { key: 4, name: 'Accent', hex: '#c67139' },
+        { key: 5, name: 'Sage', hex: '#7a8a5e' },
+        { key: 6, name: 'Dark ground', hex: '#211d18' },
+      ],
+      legendCells: [
+        { key: 1, a: '1', bg: '#c67139', fg: '#f5ead8', border: '#b2622d' },
+        { key: 2, a: '2', bg: '#c67139', fg: '#f5ead8', border: '#b2622d' },
+        { key: 3, a: '3b', bg: '#c67139', fg: '#f5ead8', border: '#b2622d' },
+        { key: 4, a: '4', bg: '#f0e4ce', fg: 'rgba(32,30,29,.42)', border: 'rgba(32,30,29,.10)' },
+        { key: 5, a: '5', bg: '#e1eecc', fg: '#3d472b', border: '#728157' },
+      ],
+      legendNotes: [
+        { key: 1, cx: 22, label: 'E', fill: '#ffe1d0', stroke: '#b2622d' },
+        { key: 2, cx: 68, label: 'F', fill: '#ffe1d0', stroke: '#b2622d' },
+        { key: 3, cx: 114, label: 'F#', fill: '#e1eecc', stroke: '#728157' },
+        { key: 4, cx: 160, label: 'G', fill: '#ffe1d0', stroke: '#b2622d' },
+        { key: 5, cx: 206, label: 'G#', fill: '#e1eecc', stroke: '#728157' },
+      ],
+      goals: [
+        {
+          key: 'learn', kicker: 'Understand', title: 'Learn a scale', href: '#03', cta: 'Open the library',
+          body: 'Thirty-nine scales with their intervals, their spelling, and how the seven modes sit against each other.',
+          chips: [{ key: 'a', label: 'Intervals' }, { key: 'b', label: 'Modes' }, { key: 'c', label: 'Filter by notes' }],
+        },
+        {
+          key: 'drill', kicker: 'Recall', title: 'Drill it', href: '#05', cta: 'Choose a drill',
+          body: 'Nine short games across naming, writing and placing. Wrong answers lock and stay visible; nothing is timed.',
+          chips: [{ key: 'a', label: 'Guess the interval' }, { key: 'b', label: 'Complete the chord' }],
+        },
+        {
+          key: 'neck', kicker: 'Locate', title: 'Find it on the neck', href: '#07', cta: 'Open the fretboard',
+          body: 'Six strings, twelve frets, eight tunings. Filter down to the notes you are hunting for.',
+          chips: [{ key: 'a', label: 'Sharps / flats' }, { key: 'b', label: 'Tunings' }],
+        },
+      ],
+      libraryRows: libraryRows,
+      detailCells: cells(dorian),
+      quizCells: cells([0, 9]),
+      darkCells: cells([0, 9], { dark: true }).slice(0, 7),
+      arcH: direct.height,
+      arcsDirect: direct.items,
+      arcsInverted: inverted.items,
+      quizArcH: quiz.height,
+      quizArcs: quiz.items,
+      progressDots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => ({
+        key: n,
+        color: n <= 8 ? 'var(--color-accent)' : n === 9 ? 'var(--color-accent-300)' : 'var(--color-neutral-300)',
+      })),
+      practiceFamilies: [
+        {
+          key: 'name', title: 'Name it', blurb: 'four choices, one right',
+          games: [
+            { key: 'a', title: 'Guess which scale', body: 'A shape on the grid — name the scale.', meta: '4 choices · pick your pool' },
+            { key: 'b', title: 'Guess the interval', body: 'An arrow between two notes — name the distance.', meta: '4 choices' },
+            { key: 'c', title: 'Guess the chord', body: 'A chord inside a scale — name it.', meta: '4 choices' },
+          ],
+        },
+        {
+          key: 'write', title: 'Write it', blurb: 'build the answer, click or type',
+          games: [
+            { key: 'd', title: 'Write the scale', body: 'Given a name, lay out its degrees.', meta: 'Keyboard · Shift for sharps' },
+            { key: 'e', title: 'Write the chords', body: 'Given a chord and a root, spell its notes.', meta: 'Keyboard · Shift for sharps' },
+            { key: 'f', title: 'Complete the chord', body: 'The root is placed — fill the empty slots.', meta: 'Immediate feedback' },
+          ],
+        },
+        {
+          key: 'place', title: 'Place it', blurb: 'notes and positions in context',
+          games: [
+            { key: 'g', title: 'Guess the note', body: 'Follow the arrow and name where it lands.', meta: 'Fixed root or endless' },
+            { key: 'h', title: "Guess the mode's position", body: 'Pick the roman numeral in the key.', meta: 'Major or minor' },
+            { key: 'i', title: 'Scale on the neck', body: 'The same shapes, round notes, six strings.', meta: 'Opens the fretboard' },
+          ],
+        },
+      ],
+      fretMarkers: [3, 5, 7, 9, 12].map((f) => ({ key: f, x: fretCenterX(f) - 17, topY: 22, botY: 384 })),
+      stringLines: rowY.map((y) => ({ key: y, y: y })),
+      fretWires: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((f) => ({ key: f, x: NUT_X + f * SEG })),
+      fretNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((f) => ({ key: f, fret: f, x: fretCenterX(f) })),
+      fretNotes: fretNotes,
+      mobileTabs: [
+        { key: 'h', glyph: '◍', label: 'Home', color: 'var(--color-accent)' },
+        { key: 's', glyph: '≡', label: 'Scales', color: 'rgba(32,30,29,.6)' },
+        { key: 'p', glyph: '◎', label: 'Practice', color: 'rgba(32,30,29,.6)' },
+        { key: 'f', glyph: '⌗', label: 'Neck', color: 'rgba(32,30,29,.6)' },
+      ],
+      rationale: [
+        { key: 1, title: 'One name', body: 'Woodshed — what guitarists call private practice. Tab title, sidebar and mark finally agree.' },
+        { key: 2, title: 'Contrast down, warmth up', body: 'Cream ground and soft ink instead of pure black on white; one light and one dark theme instead of three.' },
+        { key: 3, title: 'One radius scale', body: '10px on note cells, 24–36px on containers, pills on every control — the square/rounded conflict is resolved rather than tolerated.' },
+        { key: 4, title: 'Home routes by goal', body: 'Understand / Recall / Locate. The sidebar becomes a quiet top nav, and each game has exactly one entry point.' },
+        { key: 5, title: 'Two note languages, labelled', body: 'Square is paper, round is the neck — stated in the fretboard caption and consistent in color.' },
+        { key: 6, title: 'Feedback, not fanfare', body: 'Ten quiet progress dots, a sage confirmation line, a locked wrong answer. No XP, no streaks.' },
+      ],
+    }
+  }
+}
+</script>
+</body>
+</html>

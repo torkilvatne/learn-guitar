@@ -1,0 +1,257 @@
+/* Woodshed tokens — replaces src/theme/tokens.css wholesale.
+   Two themes only (light + dark). Warm ground, terracotta accent, sage second voice.
+   Ramps are the Organic 100–900 steps; use 100–300 for fills, 500 as base, 700–900 for
+   text sitting on a tinted fill. */
+
+:root,
+[data-theme='light'] {
+  /* ground + ink */
+  --bg: #f5ead8;
+  --surface: #ebddc5;
+  --surface-alt: #f0e4ce;
+  --text: #201e1d;
+  --text-muted: #6c6152;
+  --border: rgba(32, 30, 29, 0.12);
+  --divider: rgba(32, 30, 29, 0.1);
+
+  /* neutral ramp */
+  --neutral-100: #f7efe1;
+  --neutral-200: #ebddc5;
+  --neutral-300: #ddcdae;
+  --neutral-400: #c3b393;
+  --neutral-500: #a2937a;
+  --neutral-600: #7d7160;
+  --neutral-700: #5c5246;
+  --neutral-800: #3d372f;
+  --neutral-900: #201e1d;
+
+  /* terracotta — the only emphasis */
+  --accent: #c67139;
+  --accent-100: #fbe6d6;
+  --accent-200: #f6cdb0;
+  --accent-300: #eaa97e;
+  --accent-400: #d98d58;
+  --accent-500: #c67139;
+  --accent-600: #b2622d;
+  --accent-700: #8f4d22;
+  --accent-800: #6b391a;
+  --accent-900: #472611;
+  --accent-foreground: #f5ead8;
+
+  /* sage — second voice: chord tones, "correct" */
+  --accent-2: #7a8a5e;
+  --accent-2-100: #eef3e2;
+  --accent-2-200: #e1eecc;
+  --accent-2-300: #c3d2a5;
+  --accent-2-400: #a9bb8c;
+  --accent-2-500: #7a8a5e;
+  --accent-2-600: #67774e;
+  --accent-2-700: #4f5c3c;
+  --accent-2-800: #3d472b;
+  --accent-2-900: #28301c;
+  --accent-2-foreground: #f5ead8;
+
+  /* note languages — square (paper) uses accent/neutral; round (neck) uses these */
+  --natural: #b2622d;
+  --natural-fill: #ffe1d0;
+  --natural-text: #643312;
+  --accidental: #728157;
+  --accidental-fill: #e1eecc;
+  --accidental-text: #3d472b;
+
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  --highlight-border: var(--accent-600);
+  --destructive: #a63c23;
+  --destructive-fill: #f6ddd4;
+  --destructive-foreground: #7e2d1d;
+  --success: var(--accent-2-600);
+  --success-fill: var(--accent-2-100);
+  --success-foreground: var(--accent-2-800);
+
+  --shadow-sm: 0 1px 2px rgba(46, 43, 37, 0.06), 0 2px 8px rgba(46, 43, 37, 0.05);
+  --shadow-md: 0 4px 12px rgba(46, 43, 37, 0.1);
+  --shadow-lg: 0 12px 32px rgba(46, 43, 37, 0.16);
+
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--neutral-100);
+  --popover-foreground: var(--text);
+  --secondary: var(--surface-alt);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-alt);
+  --muted-foreground: var(--text-muted);
+  --input: var(--border);
+  --ring: var(--accent);
+}
+
+[data-theme='dark'] {
+  --bg: #211d18;
+  --surface: #2c2721;
+  --surface-alt: #352f27;
+  --text: #f3e9db;
+  --text-muted: #a89c8a;
+  --border: rgba(243, 233, 219, 0.16);
+  --divider: rgba(243, 233, 219, 0.12);
+
+  --neutral-100: #2c2721;
+  --neutral-200: #352f27;
+  --neutral-300: #433c32;
+  --neutral-400: #5a5145;
+  --neutral-500: #786d5d;
+  --neutral-600: #998c79;
+  --neutral-700: #bcae99;
+  --neutral-800: #e6dccd;
+  --neutral-900: #f3e9db;
+
+  --accent: #e08a4d;
+  --accent-100: #3a2417;
+  --accent-200: #4e3220;
+  --accent-300: #7a4c2c;
+  --accent-400: #b06a39;
+  --accent-500: #e08a4d;
+  --accent-600: #eda469;
+  --accent-700: #f6bd8d;
+  --accent-800: #ffd6b8;
+  --accent-900: #ffe9d8;
+  --accent-foreground: #211d18;
+
+  --accent-2: #9cb07a;
+  --accent-2-100: #2a3122;
+  --accent-2-200: #39432e;
+  --accent-2-300: #55643f;
+  --accent-2-400: #7d9160;
+  --accent-2-500: #9cb07a;
+  --accent-2-600: #a9bb8c;
+  --accent-2-700: #c4d3a8;
+  --accent-2-800: #dceac4;
+  --accent-2-900: #eef5e2;
+  --accent-2-foreground: #211d18;
+
+  --natural: #e2a273;
+  --natural-fill: #4a3020;
+  --natural-text: #ffe1d0;
+  --accidental: #a9bb8c;
+  --accidental-fill: #333d27;
+  --accidental-text: #e1eecc;
+
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  --highlight-border: var(--accent-500);
+  --destructive: #e08b72;
+  --destructive-fill: #4a2a20;
+  --destructive-foreground: #f0b7a4;
+  --success: var(--accent-2-500);
+  --success-fill: var(--accent-2-100);
+  --success-foreground: var(--accent-2-800);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.44);
+
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --secondary: var(--surface-alt);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-alt);
+  --muted-foreground: var(--text-muted);
+  --input: var(--border);
+  --ring: var(--accent);
+}
+
+@theme {
+  --font-heading: 'Caprasimo', ui-serif, Georgia, serif;
+  --font-body: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-divider: var(--divider);
+
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+
+  --color-accent: var(--accent);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-100: var(--accent-2-100);
+  --color-accent-2-200: var(--accent-2-200);
+  --color-accent-2-300: var(--accent-2-300);
+  --color-accent-2-400: var(--accent-2-400);
+  --color-accent-2-500: var(--accent-2-500);
+  --color-accent-2-600: var(--accent-2-600);
+  --color-accent-2-700: var(--accent-2-700);
+  --color-accent-2-800: var(--accent-2-800);
+  --color-accent-2-900: var(--accent-2-900);
+  --color-accent-2-foreground: var(--accent-2-foreground);
+
+  --color-natural: var(--natural);
+  --color-natural-fill: var(--natural-fill);
+  --color-natural-text: var(--natural-text);
+  --color-accidental: var(--accidental);
+  --color-accidental-fill: var(--accidental-fill);
+  --color-accidental-text: var(--accidental-text);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-highlight-border: var(--highlight-border);
+  --color-destructive: var(--destructive);
+  --color-destructive-fill: var(--destructive-fill);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-fill: var(--success-fill);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* THE radius change: the old file pinned every step to 0rem. */
+  --radius-sm: 0.5rem;   /*  8px — tags, small chips */
+  --radius-md: 0.625rem; /* 10px — note cells (Box) */
+  --radius-lg: 1rem;     /* 16px — inputs, popovers */
+  --radius-xl: 1.5rem;   /* 24px — cards, banners */
+  --radius-2xl: 2rem;    /* 32px — panels */
+  --radius-3xl: 2.25rem; /* 36px — the session sheet */
+  --radius-full: 999px;  /* every button and segmented control */
+
+  --shadow-elev-sm: var(--shadow-sm);
+  --shadow-elev-md: var(--shadow-md);
+  --shadow-elev-lg: var(--shadow-lg);
+}

@@ -1,0 +1,62 @@
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
+import {
+  DEFAULT_THEME_ID,
+  RETIRED_THEME_IDS,
+  THEMES,
+  type ThemeId,
+} from '../theme/themes'
+
+const STORAGE_KEY = 'absolutely-understanding-guitar:theme'
+
+function isThemeId(value: unknown): value is ThemeId {
+  return THEMES.some((theme) => theme.value === value)
+}
+
+function loadTheme(): ThemeId {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (isThemeId(raw)) return raw
+    /* Migrate anyone persisted on the retired 'coral' theme. */
+    if (typeof raw === 'string' && raw in RETIRED_THEME_IDS) {
+      return RETIRED_THEME_IDS[raw]
+    }
+    return DEFAULT_THEME_ID
+  } catch {
+    return DEFAULT_THEME_ID
+  }
+}
+
+export interface ThemeContextValue {
+  theme: ThemeId
+  setTheme: (theme: ThemeId) => void
+}
+
+const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
+
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setTheme] = useState<ThemeId>(loadTheme)
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem(STORAGE_KEY, theme)
+  }, [theme])
+
+  const value = useMemo<ThemeContextValue>(() => ({ theme, setTheme }), [theme])
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+}
+
+export function useTheme(): ThemeContextValue {
+  const context = useContext(ThemeContext)
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
+}
