@@ -34,48 +34,59 @@ export function ModesPane({
   const displayOffsets = getDisplayStaggerOffsets(modes)
 
   return (
-    <div className="mt-6 space-y-1 overflow-x-auto sm:space-y-4">
-      {modes.map((modeScale, index) => {
-        const info = infos[index]
-        const quality = getScaleQuality(modeScale)
-        const isActive = modeScale.id === scale.id
+    <div className="overflow-x-auto rounded-[32px] bg-surface px-5 py-5 shadow-elev-sm sm:px-7 sm:py-6">
+      <div className="flex flex-col gap-1.5">
+        {modes.map((modeScale, index) => {
+          const info = infos[index]
+          const quality = getScaleQuality(modeScale)
+          const isActive = modeScale.id === scale.id
 
-        return (
-          <div
-            key={modeScale.id}
-            className={`flex flex-col gap-1 pt-1 pr-2 pb-1 sm:flex-row sm:items-center sm:gap-3 sm:pt-3 sm:pr-4 sm:pb-3 ${isActive ? 'bg-surface-alt' : ''}`}
-          >
-            <div className="flex items-baseline gap-2 sm:contents">
-              <div className="text-right font-mono text-sm text-text-muted sm:w-10 sm:shrink-0">
-                {info.numeral}
+          return (
+            <div
+              key={modeScale.id}
+              className={`flex flex-col gap-1.5 rounded-[20px] px-3 py-2.5 sm:flex-row sm:items-center sm:gap-4 ${
+                isActive ? 'bg-bg shadow-elev-sm' : ''
+              }`}
+            >
+              <div className="flex items-baseline gap-2.5 sm:contents">
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-0.5 text-center text-xs font-bold sm:w-12 ${
+                    isActive
+                      ? 'bg-accent-100 text-accent-800'
+                      : 'bg-neutral-200 text-text/60'
+                  }`}
+                >
+                  {info.numeral}
+                </span>
+                <div
+                  className={`text-sm sm:w-52 sm:shrink-0 ${
+                    isActive ? 'font-semibold text-text' : 'text-text/65'
+                  }`}
+                >
+                  {modeScale.name}
+                  {quality && (
+                    <span className="font-normal text-text/50">
+                      {' '}
+                      ({quality.replace('-', ' ')})
+                    </span>
+                  )}
+                </div>
               </div>
-              <div
-                className={`text-sm sm:w-52 sm:shrink-0 ${
-                  isActive ? 'font-semibold text-text' : 'text-text-muted'
-                }`}
-              >
-                {modeScale.name}
-                {quality && (
-                  <span className="font-normal text-text-muted">
-                    {' '}
-                    ({quality.replace('-', ' ')})
-                  </span>
-                )}
+              <div className="w-full sm:w-auto sm:min-w-[600px] sm:flex-1">
+                <ScaleRow
+                  scale={modeScale}
+                  mode={mode}
+                  rootSemitone={rootSemitone}
+                  offset={displayOffsets[index]}
+                  totalColumns={TWO_OCTAVE_COLUMNS}
+                  highlightedChordId={highlightedChordId}
+                  showDegreeLabels={false}
+                />
               </div>
             </div>
-            <div className="w-full sm:w-auto sm:min-w-[600px] sm:flex-1">
-              <ScaleRow
-                scale={modeScale}
-                mode={mode}
-                rootSemitone={rootSemitone}
-                offset={displayOffsets[index]}
-                totalColumns={TWO_OCTAVE_COLUMNS}
-                highlightedChordId={highlightedChordId}
-              />
-            </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
   )
 }

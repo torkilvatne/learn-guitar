@@ -9,9 +9,10 @@ const ROW_SPACING = 54
 const NOTE_RADIUS = 19
 const OPEN_X = 70
 const NUT_X = 130
-const NUT_STROKE_WIDTH = 6
-const MARKER_PAD_X = 15
+const NUT_STROKE_WIDTH = 7
+const MARKER_PAD_X = 17
 const MARKER_PAD_Y = 12
+const MARKER_RADIUS = 12
 const TOP_NUMBER_OFFSET = 38
 const BOTTOM_NUMBER_OFFSET = 54
 
@@ -67,14 +68,16 @@ export function Fretboard({
                 y={topY - MARKER_PAD_Y}
                 width={MARKER_PAD_X * 2}
                 height={MARKER_PAD_Y * 2}
-                className="fill-surface-alt"
+                rx={MARKER_RADIUS}
+                className="fill-neutral-200"
               />
               <rect
                 x={fx - MARKER_PAD_X}
                 y={bottomY - MARKER_PAD_Y}
                 width={MARKER_PAD_X * 2}
                 height={MARKER_PAD_Y * 2}
-                className="fill-surface-alt"
+                rx={MARKER_RADIUS}
+                className="fill-neutral-200"
               />
             </g>
           )
@@ -87,7 +90,7 @@ export function Fretboard({
             y1={y}
             x2={gridRightX}
             y2={y}
-            className="stroke-border"
+            className="stroke-neutral-400"
             strokeWidth={1.5}
           />
         ))}
@@ -102,7 +105,7 @@ export function Fretboard({
               y1={rowY[0]}
               x2={x}
               y2={rowY[rows - 1]}
-              className="stroke-border"
+              className="stroke-neutral-300"
               strokeWidth={1.5}
             />
           )
@@ -113,7 +116,7 @@ export function Fretboard({
           y1={rowY[0]}
           x2={NUT_X}
           y2={rowY[rows - 1]}
-          className="stroke-text"
+          className="stroke-neutral-800"
           strokeWidth={NUT_STROKE_WIDTH}
           strokeLinecap="round"
         />
@@ -128,9 +131,9 @@ export function Fretboard({
                 y={topY}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fontSize={15}
-                fontWeight={600}
-                className="fill-text-muted"
+                fontSize={14}
+                fontWeight={700}
+                className="fill-neutral-600"
               >
                 {fret}
               </text>
@@ -139,9 +142,9 @@ export function Fretboard({
                 y={bottomY}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fontSize={15}
-                fontWeight={600}
-                className="fill-text-muted"
+                fontSize={14}
+                fontWeight={700}
+                className="fill-neutral-600"
               >
                 {fret}
               </text>

@@ -3,18 +3,20 @@ import { getScaleIntervalArcs, type IntervalArcDirection } from '../domain/inter
 import type { Scale } from '../domain/types'
 
 const DEFAULT_COLUMN_COUNT = 13
-const RANK_HEIGHT_PX = 20
+const RANK_HEIGHT_PX = 19
 const ARROW_LENGTH_PX = 8
 const ARROW_WIDTH_PX = 9
-const LABEL_FONT_SIZE_PX = 13
-const LABEL_CHAR_WIDTH_PX = 8
-const LABEL_PADDING_PX = 4
-const EXTRA_MARGIN_PX = 6
+const LABEL_FONT_SIZE_PX = 11
+const LABEL_CHAR_WIDTH_PX = 6.4
+const LABEL_PADDING_PX = 7
+const LABEL_HEIGHT_PX = 18
+const EXTRA_MARGIN_PX = 8
 
 const COMPACT_WIDTH_THRESHOLD_PX = 640
 const COMPACT_LABEL_FONT_SIZE_PX = 9
-const COMPACT_LABEL_CHAR_WIDTH_PX = 5.5
-const COMPACT_LABEL_PADDING_PX = 2
+const COMPACT_LABEL_CHAR_WIDTH_PX = 5.2
+const COMPACT_LABEL_PADDING_PX = 5
+const COMPACT_LABEL_HEIGHT_PX = 15
 
 export interface IntervalArcsProps {
   scale: Scale
@@ -52,6 +54,7 @@ export function IntervalArcs({
   const labelFontSize = isCompact ? COMPACT_LABEL_FONT_SIZE_PX : LABEL_FONT_SIZE_PX
   const labelCharWidth = isCompact ? COMPACT_LABEL_CHAR_WIDTH_PX : LABEL_CHAR_WIDTH_PX
   const labelPadding = isCompact ? COMPACT_LABEL_PADDING_PX : LABEL_PADDING_PX
+  const labelHeight = isCompact ? COMPACT_LABEL_HEIGHT_PX : LABEL_HEIGHT_PX
 
   const arcs = getScaleIntervalArcs(scale, direction)
   const rankBySpan = new Map(
@@ -74,7 +77,7 @@ export function IntervalArcs({
           width={width}
           height={height}
           viewBox={`0 0 ${width} ${height}`}
-          className={`text-text transition-opacity duration-200 ${
+          className={`text-accent-700 transition-opacity duration-200 ${
             visible ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -102,16 +105,23 @@ export function IntervalArcs({
 
             return (
               <g key={arc.semitone}>
-                <path d={path} stroke="currentColor" strokeWidth={1.5} fill="none" />
-                <polygon points={arrowPoints} fill="currentColor" />
+                <path
+                  d={path}
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  fill="none"
+                  opacity={0.55}
+                />
+                <polygon points={arrowPoints} fill="currentColor" opacity={0.55} />
                 {showLabels && (
                   <>
                     <rect
                       x={labelX - labelWidth / 2}
-                      y={peakY - labelFontSize / 2 - 2}
+                      y={peakY - labelHeight / 2}
                       width={labelWidth}
-                      height={labelFontSize + 4}
-                      style={{ fill: 'var(--bg)' }}
+                      height={labelHeight}
+                      rx={labelHeight / 2}
+                      style={{ fill: 'var(--accent-100)' }}
                     />
                     <text
                       x={labelX}
@@ -119,8 +129,8 @@ export function IntervalArcs({
                       textAnchor="middle"
                       dominantBaseline="central"
                       fontSize={labelFontSize}
-                      fontWeight="bold"
-                      fill="currentColor"
+                      fontWeight={700}
+                      style={{ fill: 'var(--accent-800)' }}
                     >
                       {arc.label}
                     </text>

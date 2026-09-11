@@ -23,6 +23,9 @@ export interface ComboboxProps<T> {
   searchPlaceholder: string
   emptyText?: string
   className?: string
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  trigger?: ReactNode
 }
 
 export function Combobox<T>({
@@ -36,17 +39,24 @@ export function Combobox<T>({
   searchPlaceholder,
   emptyText = 'No results found.',
   className,
+  open,
+  onOpenChange,
+  trigger,
 }: ComboboxProps<T>) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [internalOpen, setInternalOpen] = useState(false)
+  const isOpen = open ?? internalOpen
+  const setIsOpen = onOpenChange ?? setInternalOpen
   const selected = options.find((option) => getKey(option) === selectedKey)
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className={cn('w-full justify-between', className)}>
-          {selected ? getLabel(selected) : placeholder}
-          <ChevronsUpDownIcon className="opacity-50" />
-        </Button>
+        {trigger ?? (
+          <Button variant="outline" className={cn('w-full justify-between', className)}>
+            {selected ? getLabel(selected) : placeholder}
+            <ChevronsUpDownIcon className="opacity-50" />
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent className="w-72 p-0">
         <Command>

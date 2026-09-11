@@ -1,13 +1,7 @@
 import { useState } from 'react'
 import { IntervalArcs } from '../components/IntervalArcs'
 import { ScaleRow } from '../components/ScaleRow'
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
-  FieldTitle,
-} from '../components/ui/field'
+import { Label } from '../components/ui/label'
 import { Switch } from '../components/ui/switch'
 import type { DisplayMode } from '../domain/scaleEngine'
 import type { Scale } from '../domain/types'
@@ -28,22 +22,17 @@ export function IntervalsPane({
   const [showArrows, setShowArrows] = useState(true)
 
   return (
-    <div>
-      <FieldLabel htmlFor="show-arrows" className="max-w-sm">
-        <Field orientation="horizontal">
-          <FieldContent>
-            <FieldTitle>Arrows</FieldTitle>
-            <FieldDescription>
-              Show the interval and inverted interval arrows above and below the scale
-              row.
-            </FieldDescription>
-          </FieldContent>
-          <Switch id="show-arrows" checked={showArrows} onCheckedChange={setShowArrows} />
-        </Field>
-      </FieldLabel>
-      <div className="mt-8">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-2.5 self-end">
+        <Switch id="show-arrows" checked={showArrows} onCheckedChange={setShowArrows} />
+        <Label htmlFor="show-arrows" className="text-sm">
+          Interval arrows
+        </Label>
+      </div>
+
+      <div className="rounded-[32px] bg-surface px-9 py-8 shadow-elev-sm">
         <IntervalArcs scale={scale} direction="inverted" visible={showArrows} />
-        <div className="my-1">
+        <div className="my-2">
           <ScaleRow
             scale={scale}
             mode={mode}
