@@ -6,7 +6,12 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { DEFAULT_THEME_ID, THEMES, type ThemeId } from '../theme/themes'
+import {
+  DEFAULT_THEME_ID,
+  RETIRED_THEME_IDS,
+  THEMES,
+  type ThemeId,
+} from '../theme/themes'
 
 const STORAGE_KEY = 'absolutely-understanding-guitar:theme'
 
@@ -17,7 +22,11 @@ function isThemeId(value: unknown): value is ThemeId {
 function loadTheme(): ThemeId {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return isThemeId(raw) ? raw : DEFAULT_THEME_ID
+    if (isThemeId(raw)) return raw
+    if (typeof raw === 'string' && raw in RETIRED_THEME_IDS) {
+      return RETIRED_THEME_IDS[raw]
+    }
+    return DEFAULT_THEME_ID
   } catch {
     return DEFAULT_THEME_ID
   }
