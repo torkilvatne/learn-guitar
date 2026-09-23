@@ -40,7 +40,7 @@ export function PracticeSessionShell({
             <ArrowLeft strokeWidth={2.75} />
             Leave
           </Button>
-          {started && (
+          {started && score && (
             <div className="ml-auto">
               <SessionProgress
                 results={results}

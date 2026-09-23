@@ -13,10 +13,12 @@ export function GuessNoteSession() {
   const [staticRoot, setStaticRoot] = useState(0)
   const [started, setStarted] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   function handleEnd() {
     setStarted(false)
     setScore({ correct: 0, total: 0 })
+    setResults([])
   }
 
   function handleResult(correct: boolean) {
@@ -24,6 +26,7 @@ export function GuessNoteSession() {
       correct: previous.correct + (correct ? 1 : 0),
       total: previous.total + 1,
     }))
+    setResults((previous) => [...previous, correct])
   }
 
   return (
@@ -31,6 +34,7 @@ export function GuessNoteSession() {
       title="Guess the note"
       description="See the root note and an arrow pointing to another position on the grid. Guess which note the arrow points to."
       score={started ? score : undefined}
+      results={started ? results : undefined}
     >
       {started ? (
         mode === 'endless' ? (

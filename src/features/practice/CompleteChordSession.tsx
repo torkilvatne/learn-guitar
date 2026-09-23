@@ -16,6 +16,7 @@ export function CompleteChordSession() {
   const [selectedRootIds, setSelectedRootIds] = useState<Set<string>>(DEFAULT_ROOT_IDS)
   const [started, setStarted] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   const rootPool = NOTE_STEPS.filter((step) => selectedRootIds.has(String(step.semitone))).map(
     (step) => step.semitone,
@@ -25,6 +26,7 @@ export function CompleteChordSession() {
   function handleEnd() {
     setStarted(false)
     setScore({ correct: 0, total: 0 })
+    setResults([])
   }
 
   return (
@@ -32,17 +34,19 @@ export function CompleteChordSession() {
       title="Complete the chord"
       description="Pick a chord and which root notes to practice. Each round shows the root — pick the rest of the chord's notes from the shuffled row below."
       score={started ? score : undefined}
+      results={started ? results : undefined}
     >
       {started && selectedChord && canStart ? (
         <CompleteChordLoop
           chord={selectedChord}
           rootPool={rootPool}
-          onResult={(correct) =>
+          onResult={(correct) => {
             setScore((previous) => ({
               correct: previous.correct + (correct ? 1 : 0),
               total: previous.total + 1,
             }))
-          }
+            setResults((previous) => [...previous, correct])
+          }}
           onEnd={handleEnd}
         />
       ) : (

@@ -19,6 +19,7 @@ export function GuessIntervalSession() {
   const [wrongAttempts, setWrongAttempts] = useState<Set<string>>(new Set())
   const [solved, setSolved] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   const correct = getInterval(target)
 
@@ -38,10 +39,12 @@ export function GuessIntervalSession() {
   function handleSelect(option: IntervalInfo) {
     if (option.semitones === target) {
       setSolved(true)
+      const isClean = wrongAttempts.size === 0
       setScore((previous) => ({
-        correct: previous.correct + (wrongAttempts.size === 0 ? 1 : 0),
+        correct: previous.correct + (isClean ? 1 : 0),
         total: previous.total + 1,
       }))
+      setResults((previous) => [...previous, isClean])
     } else {
       setWrongAttempts((previous) => new Set(previous).add(String(option.semitones)))
     }
@@ -58,6 +61,7 @@ export function GuessIntervalSession() {
       title="Guess the interval"
       description="An arrow will point from the root to another note on the grid. Pick the interval name that matches the distance between them."
       score={score}
+      results={results}
     >
       <div className="w-full">
         <ScaleRow

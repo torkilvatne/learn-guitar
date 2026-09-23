@@ -31,6 +31,7 @@ export function GuessChordSession() {
   const [wrongAttempts, setWrongAttempts] = useState<Set<string>>(new Set())
   const [solved, setSolved] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   const options = useMemo(() => {
     const wrong = pickDistinctRandom(
@@ -43,10 +44,12 @@ export function GuessChordSession() {
   function handleSelect(option: Chord) {
     if (option.id === round.chord.id) {
       setSolved(true)
+      const correct = wrongAttempts.size === 0
       setScore((previous) => ({
-        correct: previous.correct + (wrongAttempts.size === 0 ? 1 : 0),
+        correct: previous.correct + (correct ? 1 : 0),
         total: previous.total + 1,
       }))
+      setResults((previous) => [...previous, correct])
     } else {
       setWrongAttempts((previous) => new Set(previous).add(option.id))
     }
@@ -63,6 +66,7 @@ export function GuessChordSession() {
       title="Guess the chord"
       description="A chord's notes will be highlighted on a scale. Pick the chord's name from the choices below."
       score={score}
+      results={results}
     >
       <div className="w-full">
         <ScaleRow

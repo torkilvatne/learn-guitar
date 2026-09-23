@@ -32,6 +32,7 @@ export function GuessModePositionSession() {
   const [wrongAttempts, setWrongAttempts] = useState<Set<string>>(new Set())
   const [solved, setSolved] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   const options = useMemo(() => {
     const modes = getModesInProgressionOrder(round.rootDegree)
@@ -45,10 +46,12 @@ export function GuessModePositionSession() {
   function handleSelect(option: string) {
     if (option === round.numeral) {
       setSolved(true)
+      const isClean = wrongAttempts.size === 0
       setScore((previous) => ({
-        correct: previous.correct + (wrongAttempts.size === 0 ? 1 : 0),
+        correct: previous.correct + (isClean ? 1 : 0),
         total: previous.total + 1,
       }))
+      setResults((previous) => [...previous, isClean])
     } else {
       setWrongAttempts((previous) => new Set(previous).add(option))
     }
@@ -65,6 +68,7 @@ export function GuessModePositionSession() {
       title="Guess the mode's position"
       description="A diatonic mode will be shown. Pick its roman numeral position in the major or minor key progression."
       score={score}
+      results={results}
     >
       <p className="text-center text-text-muted">
         What's this mode's position in the{' '}

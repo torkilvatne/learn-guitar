@@ -18,13 +18,18 @@ export function GuessScaleSession() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(ALL_SCALE_IDS)
   const [started, setStarted] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
-  const pool = SCALES.filter((scale) => selectedIds.has(scale.id))
+  const pool = useMemo(
+    () => SCALES.filter((scale) => selectedIds.has(scale.id)),
+    [selectedIds],
+  )
   const canStart = pool.length >= OPTION_COUNT
 
   function handleEnd() {
     setStarted(false)
     setScore({ correct: 0, total: 0 })
+    setResults([])
   }
 
   return (
@@ -32,16 +37,18 @@ export function GuessScaleSession() {
       title="Guess which scale"
       description="A random scale will appear on the grid. Pick its name from the four choices below."
       score={started ? score : undefined}
+      results={started ? results : undefined}
     >
       {started && canStart ? (
         <GuessScaleLoop
           pool={pool}
-          onResult={(correct) =>
+          onResult={(correct) => {
             setScore((previous) => ({
               correct: previous.correct + (correct ? 1 : 0),
               total: previous.total + 1,
             }))
-          }
+            setResults((previous) => [...previous, correct])
+          }}
           onEnd={handleEnd}
         />
       ) : (

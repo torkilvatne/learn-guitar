@@ -14,12 +14,14 @@ export function WriteScalesLoopSession() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [started, setStarted] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   const selectedScales = SCALES.filter((scale) => selectedIds.has(scale.id))
 
   function handleEnd() {
     setStarted(false)
     setScore({ correct: 0, total: 0 })
+    setResults([])
   }
 
   return (
@@ -27,18 +29,20 @@ export function WriteScalesLoopSession() {
       title="Write the scales"
       description="Pick the scales you want to practice, then write out each one's degrees. A new random scale appears after every round until you end the session."
       score={started ? score : undefined}
+      results={started ? results : undefined}
     >
       {started && selectedScales.length > 0 ? (
         <WriteScalesLoop
           scales={selectedScales}
           mode={mode}
           rootSemitone={rootSemitone}
-          onResult={(correct) =>
+          onResult={(correct) => {
             setScore((previous) => ({
               correct: previous.correct + (correct ? 1 : 0),
               total: previous.total + 1,
             }))
-          }
+            setResults((previous) => [...previous, correct])
+          }}
           onEnd={handleEnd}
         />
       ) : (

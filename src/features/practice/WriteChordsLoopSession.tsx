@@ -34,12 +34,14 @@ export function WriteChordsLoopSession() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [started, setStarted] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<boolean[]>([])
 
   const selectedChords = CHORDS.filter((chord) => selectedIds.has(chord.id))
 
   function handleEnd() {
     setStarted(false)
     setScore({ correct: 0, total: 0 })
+    setResults([])
   }
 
   return (
@@ -47,17 +49,19 @@ export function WriteChordsLoopSession() {
       title="Write the chords"
       description="Pick the chords you want to practice. Each round shows a chord name and a random root note — write out the resulting notes. A new round starts until you end the session."
       score={started ? score : undefined}
+      results={started ? results : undefined}
     >
       {started && selectedChords.length > 0 ? (
         <WriteChordsLoop
           chords={selectedChords}
           mode={mode}
-          onResult={(correct) =>
+          onResult={(correct) => {
             setScore((previous) => ({
               correct: previous.correct + (correct ? 1 : 0),
               total: previous.total + 1,
             }))
-          }
+            setResults((previous) => [...previous, correct])
+          }}
           onEnd={handleEnd}
         />
       ) : (
