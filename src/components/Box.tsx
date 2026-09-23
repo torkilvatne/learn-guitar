@@ -53,7 +53,7 @@ export function Box({
               }
             : undefined
         }
-        className={`flex aspect-square w-full flex-col items-center justify-center rounded-md border-[1.5px] text-center text-base font-bold leading-none transition-colors sm:text-2xl ${
+        className={`flex aspect-square w-full flex-col items-center justify-center rounded-[18%] border-[1.5px] text-center text-base font-bold leading-none transition-colors sm:text-2xl ${
           interactive ? 'cursor-pointer hover:border-accent-400' : ''
         } ${tone} ${dim ? 'opacity-100' : ''}`}
       >
