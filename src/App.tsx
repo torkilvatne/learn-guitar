@@ -6,7 +6,9 @@ import { ScaleRoute } from './features/ScaleRoute'
 import { ScalesLayout } from './features/ScalesLayout'
 import { CompleteChordSession } from './features/practice/CompleteChordSession'
 import { GuessChordSession } from './features/practice/GuessChordSession'
+import { GuessHalfstepsSession } from './features/practice/GuessHalfstepsSession'
 import { GuessIntervalSession } from './features/practice/GuessIntervalSession'
+import { GuessInversionSession } from './features/practice/GuessInversionSession'
 import { GuessModePositionSession } from './features/practice/GuessModePositionSession'
 import { GuessNoteSession } from './features/practice/GuessNoteSession'
 import { GuessScaleSession } from './features/practice/GuessScaleSession'
@@ -37,6 +39,8 @@ function AppContent() {
           <Route path="/practice/write-chords" element={<WriteChordsLoopSession />} />
           <Route path="/practice/complete-chord" element={<CompleteChordSession />} />
           <Route path="/practice/guess-interval" element={<GuessIntervalSession />} />
+          <Route path="/practice/guess-inversion" element={<GuessInversionSession />} />
+          <Route path="/practice/guess-halfsteps" element={<GuessHalfstepsSession />} />
           <Route path="/practice/guess-note" element={<GuessNoteSession />} />
           <Route path="/practice/guess-chord" element={<GuessChordSession />} />
           <Route

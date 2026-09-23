@@ -24,6 +24,7 @@ export interface IntervalArcsProps {
   columnCount?: number
   visible?: boolean
   showLabels?: boolean
+  maskLabel?: boolean
 }
 
 function columnCenterX(semitone: number, width: number, columnCount: number): number {
@@ -36,6 +37,7 @@ export function IntervalArcs({
   columnCount = DEFAULT_COLUMN_COUNT,
   visible = true,
   showLabels = true,
+  maskLabel = false,
 }: IntervalArcsProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [width, setWidth] = useState(0)
@@ -100,7 +102,8 @@ export function IntervalArcs({
               `${targetX + ARROW_WIDTH_PX / 2},${lineEnd.y}`,
             ].join(' ')
 
-            const labelWidth = arc.label.length * labelCharWidth + labelPadding * 2
+            const renderedLabel = maskLabel ? '?' : arc.label
+            const labelWidth = renderedLabel.length * labelCharWidth + labelPadding * 2
             const labelX = (anchorX + targetX) / 2
 
             return (
@@ -132,7 +135,7 @@ export function IntervalArcs({
                       fontWeight={700}
                       style={{ fill: 'var(--accent-800)' }}
                     >
-                      {arc.label}
+                      {renderedLabel}
                     </text>
                   </>
                 )}

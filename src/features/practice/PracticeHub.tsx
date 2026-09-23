@@ -36,6 +36,18 @@ const FAMILIES: Family[] = [
         body: 'A chord inside a scale — name it.',
         meta: '4 choices',
       },
+      {
+        to: '/practice/guess-inversion',
+        title: 'Guess the inversion',
+        body: 'An interval is named below — name what its inversion forms above.',
+        meta: '4 choices · pick a root',
+      },
+      {
+        to: '/practice/guess-halfsteps',
+        title: 'Guess the half-steps',
+        body: 'An interval is named — count the half-steps it spans.',
+        meta: '4 choices · pick a root',
+      },
     ],
   },
   {
